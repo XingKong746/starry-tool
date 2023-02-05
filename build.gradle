@@ -1,0 +1,153 @@
+ext {
+    versions = [
+            jupiter            : '5.9.0',
+            jetbrainsAnnotation: '23.0.0',
+            lombok             : '1.18.24',
+            logback            : '1.4.5',
+            javaxMail          : '1.6.7',
+            jakartaMail        : '1.1.0',
+    ]
+
+    libs = [
+            junit              : [
+                    jupiterApi   : "org.junit.jupiter:junit-jupiter-api:$versions.jupiter",
+                    jupiterEngine: "org.junit.jupiter:junit-jupiter-engine:$versions.jupiter",
+            ],
+            jetbrainsAnnotation: "org.jetbrains:annotations:$versions.jetbrainsAnnotation",
+            lombok             : "org.projectlombok:lombok:$versions.lombok",
+            logback            : "ch.qos.logback:logback-classic:$versions.logback",
+    ]
+}
+
+allprojects {
+    apply {
+        plugin("java") // jar
+        plugin("java-library") // java，可使用api方式导包
+        plugin("maven-publish") // maven发布插件
+        plugin("signing") // 组件签名插件
+    }
+
+    group = "cn.starrys"
+    version = "1.0-SNAPSHOT"
+    description = "星空工具"
+
+    buildscript {
+        repositories {
+            mavenLocal()
+            maven { name("tencentyun-maven"); url("https://mirrors.cloud.tencent.com/maven") }
+            maven { name("aliyun-google-maven"); url("https://maven.aliyun.com/repository/google") }
+            maven { name("aliyun-gradle-plugin"); url("https://maven.aliyun.com/repository/gradle-plugin") }
+            gradlePluginPortal()
+            mavenCentral()
+        }
+    }
+    repositories {
+        mavenLocal()
+        maven { name("tencentyun-maven"); url("https://mirrors.cloud.tencent.com/maven") }
+        maven { name("aliyun-google-maven"); url("https://maven.aliyun.com/repository/google") }
+        mavenCentral()
+    }
+
+    java {
+        // 生成 source.jar
+        withSourcesJar()
+        // 生成 javadoc.jar
+        withJavadocJar()
+    }
+
+    tasks.withType(JavaCompile).tap {
+        configureEach {
+            options.encoding("UTF-8")
+        }
+    }
+    tasks.withType(Javadoc).tap {
+        configureEach {
+            options {
+                encoding("UTF-8")
+                version(true)
+            }
+        }
+    }
+
+    clean {
+        delete("$projectDir/out")
+    }
+}
+
+subprojects {
+
+    dependencies {
+        // JetBrains注解
+        implementation("$libs.jetbrainsAnnotation")
+
+        // Lombok
+        annotationProcessor("$libs.lombok")
+        compileOnly("$libs.lombok")
+    }
+
+    publishing {
+        publications {
+            mavenJava(MavenPublication) {
+                from components.java
+                pom {
+                    // eg: name = "星空的工具包"（此 name 非artifactId）
+                    name = project.name
+                    // 描述
+                    description = project.description
+                    // 项目地址
+                    url = "https://gitee.com/AuroraStarry/starry-tool"
+
+                    licenses {
+                        // 许可证名称和地址
+                        license {
+                            name = "MIT License"
+                            url = "https://gitee.com/AuroraStarry/starry-tool/blob/main/LICENSE"
+                        }
+                    }
+
+                    developers {
+                        // 开发者信息
+                        developer {
+                            // 开发者ID
+                            // id = "11520532" // Gitee
+                            // id = "79194954" // GitHub
+                            // 开发者名
+                            name = "AuroraStarry"
+                            // 开发者邮箱
+                            email = "AuroraStarry@126.com"
+                        }
+                    }
+
+                    // 版本控制仓库地址
+                    scm {
+                        connection = "scm:git:git://gitee.com/AuroraStarry/starry-tool.git"
+                        developerConnection = "scm:git:ssh://gitee.com/AuroraStarry/starry-tool.git"
+                        // 仓库url
+                        url = "https://gitee.com/AuroraStarry/starry-tool.git"
+                    }
+                }
+            }
+        }
+
+        repositories {
+            maven {
+                name("OSSRH")
+                final def sonatypeRepository = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2"
+                final def sonatypeSnapshotRepository = "https://s01.oss.sonatype.org/content/repositories/snapshots"
+                url(project.version.endsWith("SNAPSHOT") ? sonatypeSnapshotRepository : sonatypeRepository)
+                credentials {
+                    username(ossrhUsername)
+                    password(ossrhPassword)
+                }
+            }
+        }
+
+    }
+    signing {
+        sign publishing.publications.mavenJava
+    }
+
+    test {
+        useJUnitPlatform()
+    }
+}
