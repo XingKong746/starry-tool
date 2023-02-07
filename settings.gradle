@@ -1,2 +1,4 @@
 rootProject.name = 'starry-tool'
 
+include 'starry-mail'
+include 'starry-mail-spring-boot-starter'

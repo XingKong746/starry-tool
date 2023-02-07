@@ -1,0 +1,8 @@
+version = starry.mail.version
+description = starry.mail.description
+
+dependencies {
+    api(project(":starry-mail"))
+    implementation("$libs.spring.boot.autoconfigure")
+    annotationProcessor("$libs.spring.boot.configurationProcessor")
+}

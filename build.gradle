@@ -1,11 +1,23 @@
 ext {
+    starry = [
+            core: [
+                    version    : "1.0.1",
+                    description: "星空工具核心",
+            ],
+            mail: [
+                    version    : "1.0.1",
+                    description: "星空邮件",
+            ],
+    ]
+
     versions = [
-            jupiter            : '5.9.0',
-            jetbrainsAnnotation: '23.0.0',
-            lombok             : '1.18.24',
-            logback            : '1.4.5',
-            javaxMail          : '1.6.7',
-            jakartaMail        : '1.1.0',
+            jupiter            : "5.9.0",
+            jetbrainsAnnotation: "23.0.0",
+            lombok             : "1.18.24",
+            logback            : "1.3.5",
+            javaxMail          : "1.6.7",
+            jakartaMail        : "1.1.0",
+            springBoot         : "2.7.7",
     ]
 
     libs = [
@@ -13,22 +25,30 @@ ext {
                     jupiterApi   : "org.junit.jupiter:junit-jupiter-api:$versions.jupiter",
                     jupiterEngine: "org.junit.jupiter:junit-jupiter-engine:$versions.jupiter",
             ],
+
             jetbrainsAnnotation: "org.jetbrains:annotations:$versions.jetbrainsAnnotation",
             lombok             : "org.projectlombok:lombok:$versions.lombok",
             logback            : "ch.qos.logback:logback-classic:$versions.logback",
+            javaxMail          : "com.sun.mail:jakarta.mail:$versions.javaxMail",
+
+            spring             : [
+                    boot: [
+                            autoconfigure         : "org.springframework.boot:spring-boot-autoconfigure:$versions.springBoot",
+                            configurationProcessor: "org.springframework.boot:spring-boot-configuration-processor:$versions.springBoot",
+                    ],
+            ],
     ]
 }
 
 allprojects {
     apply {
-        plugin("java") // jar
         plugin("java-library") // java，可使用api方式导包
         plugin("maven-publish") // maven发布插件
         plugin("signing") // 组件签名插件
     }
 
     group = "cn.starrys"
-    version = "1.0-SNAPSHOT"
+    version = "1.0.0"
     description = "星空工具"
 
     buildscript {
