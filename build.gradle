@@ -2,10 +2,10 @@ ext {
     starry = [
             core: [
                     version    : "1.0.1",
-                    description: "星空工具核心",
+                    description: "星空工具",
             ],
             mail: [
-                    version    : "1.0.1",
+                    version    : "2.7.7",
                     description: "星空邮件",
             ],
     ]
