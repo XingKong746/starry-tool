@@ -2,6 +2,6 @@ version = starry.mail.version
 description = starry.mail.description
 
 dependencies {
-    api("$libs.javaxMail")
+    api("$libs.jakartaMail")
     implementation("$libs.logback")
 }
