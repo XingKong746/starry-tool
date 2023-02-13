@@ -6,9 +6,8 @@ import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeBodyPart;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.mail.internet.MimeMultipart;
+import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -27,9 +26,8 @@ import java.util.Properties;
  *
  * @author XingKong
  */
+@Slf4j
 public class MailTools {
-
-    private final Logger logger = LoggerFactory.getLogger(MailTools.class);
 
     /**
      * 主机。
@@ -340,11 +338,11 @@ public class MailTools {
 
             return mimeMessage;
         } catch (UnsupportedEncodingException e) {
-            logger.error("不支持 “{}” 此编码", charset, e);
+            log.error("不支持 “{}” 此编码", charset, e);
         } catch (MessagingException e) {
-            logger.error("创建邮件信息异常！", e);
+            log.error("创建邮件信息异常！", e);
         } catch (IOException e) {
-            logger.error("添加附件异常！", e);
+            log.error("添加附件异常！", e);
         }
         return null;
     }
@@ -454,7 +452,7 @@ public class MailTools {
             try {
                 Transport.send(msg);
             } catch (MessagingException e) {
-                logger.error("邮件发送失败！", e);
+                log.error("邮件发送失败！", e);
                 return false;
             }
         } else {
@@ -463,7 +461,7 @@ public class MailTools {
                 transport.connect(host, port, from, password);
                 transport.sendMessage(msg, msg.getAllRecipients());
             } catch (MessagingException e) {
-                logger.error("邮件发送失败！", e);
+                log.error("邮件发送失败！", e);
                 return false;
             }
         }
