@@ -299,16 +299,12 @@ public class MailTools {
 
             // 邮件内容
             MimeBodyPart mimeBodyPart = new MimeBodyPart();
-            switch (mail.getMailType()) {
-                case TEXT:
-                    // text格式
-                    mimeBodyPart.setText(mail.getBody(), charset.name());
-                    break;
-                case HTML:
-                default:
-                    // html格式
-                    mimeBodyPart.setContent(mail.getBody(), "text/html;charset=" + charset.name());
-                    break;
+            if (mail.getMailType() == MailType.TEXT) {
+                // text格式
+                mimeBodyPart.setText(mail.getBody(), charset.name());
+            } else {
+                // html格式
+                mimeBodyPart.setContent(mail.getBody(), "text/html;charset=" + charset.name());
             }
 
             // 邮件体
