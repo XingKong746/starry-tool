@@ -1,0 +1,4 @@
+version = starry.core.version
+description = starry.core.description
+
+dependencies {}
