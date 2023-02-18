@@ -1,5 +1,7 @@
 package cn.starrys.core.util;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -12,6 +14,7 @@ import java.sql.Timestamp;
  *
  * @author XingKong
  */
+@NoArgsConstructor(access = AccessLevel.NONE)
 public class DateUtils {
 
     /**

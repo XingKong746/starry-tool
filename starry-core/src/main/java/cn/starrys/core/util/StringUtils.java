@@ -1,5 +1,7 @@
 package cn.starrys.core.util;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
 import java.math.BigInteger;
@@ -14,6 +16,7 @@ import java.security.NoSuchAlgorithmException;
  *
  * @author XingKong
  */
+@NoArgsConstructor(access = AccessLevel.NONE)
 public class StringUtils {
 
     /**

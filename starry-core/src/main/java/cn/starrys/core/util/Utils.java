@@ -13,7 +13,7 @@ import java.util.UUID;
  *
  * @author XingKong
  */
-@Deprecated(since = "1.0.0",forRemoval = true)
+@Deprecated(since = "1.0.0", forRemoval = true)
 @NoArgsConstructor(access = AccessLevel.NONE)
 public class Utils {
 
