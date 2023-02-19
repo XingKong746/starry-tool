@@ -14,10 +14,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 /**
  * 邮件工具。
@@ -172,17 +169,12 @@ public class MailTools {
     public Session getSession(@NotNull MailProtocol protocol) {
         Properties properties = new Properties();
 
-        switch (protocol) {
-            case IMAP:
-            case POP3:
-                // 接收邮件时分配给协议的名称
-                properties.setProperty("mail.store.protocol", protocol.get());
-                break;
-            case SMTP:
-            default:
-                // 发送邮件时分配给协议的名称
-                properties.setProperty("mail.transport.protocol", protocol.get());
-                break;
+        if (MailProtocol.SMTP == protocol) {
+            // 发送邮件时分配给协议的名称
+            properties.setProperty("mail.transport.protocol", protocol.get());
+        } else {
+            // 接收邮件时分配给协议的名称
+            properties.setProperty("mail.store.protocol", protocol.get());
         }
 
         // 邮箱服务器地址
@@ -197,10 +189,10 @@ public class MailTools {
         // 发件邮箱授权码
         properties.setProperty("mail.password", password);
 
-        if (nickname != null) {
-            // 发信昵称
-            properties.setProperty("mail.user", nickname);
-        }
+        Optional.ofNullable(nickname).ifPresent(name ->
+                // 发信昵称
+                properties.setProperty("mail.user", name)
+        );
 
         if (ssl) {
             // 开启 ssl
