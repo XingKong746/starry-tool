@@ -43,7 +43,7 @@ public class MailProperties {
     private String password;
 
     /**
-     * 昵称。
+     * 昵称。（Unicode字符请包围双引号，否则会被转换为Unicode码）
      */
     private String nickname;
 
