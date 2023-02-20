@@ -9,6 +9,7 @@ starry-tool
 
 1. 引入依赖
 
+   - **需要 jdk17 ，若非 jdk17 修改依赖版本 为 2.7.7**
    - Maven
 
      ```xml
@@ -25,7 +26,7 @@ starry-tool
      implementation("cn.starrys:starry-mail:3.0.2")
      ```
 
-2. 简单演示
+2. Demo
 
    ```java
    public class Demo {
@@ -71,6 +72,7 @@ starry-tool
 
 1. 引入依赖
 
+   - **需要 jdk17，spring-boot3.x，若非 spring-boot3.x 修改依赖版本 为 2.7.7**
    - Maven
 
      ```xml
@@ -87,7 +89,7 @@ starry-tool
      implementation("cn.starrys:starry-mail-spring-boot-starter:3.0.2")
      ```
 
-2. 简单演示
+2. Demo
 
    - application.yml
 
@@ -110,7 +112,7 @@ starry-tool
          private MailTools mailTools;
          @Test
          void sendMailTest() {
-             mailTools.send("330139xxxx@qq.com", "收件者昵称", "标题", "内容");
+             mailTools.send("收件邮箱", "收件者昵称", "标题", "内容");
          }
      }
      ```
