@@ -3,9 +3,9 @@
 ## 星空工具
 starry-tool
 
-### 使用说明
+## 使用说明
 
-#### starry-mail
+### starry-mail
 
 1. 引入依赖
 
@@ -67,7 +67,7 @@ starry-tool
    }
    ```
 
-#### starry-mail-spring-boot-starter
+### starry-mail-spring-boot-starter
 
 1. 引入依赖
 
