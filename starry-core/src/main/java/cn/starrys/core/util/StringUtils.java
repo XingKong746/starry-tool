@@ -97,9 +97,7 @@ public class StringUtils {
         // bigInteger.toString(16)：转换为16进制字符串
         StringBuilder strBuilder = new StringBuilder(bigInteger.toString(16));
 
-        // MD5 长度
-        final int md5Length = 32;
-        while (strBuilder.length() < md5Length) {
+        while (strBuilder.length() < 32) {
             // 如果计算出的 MD5 不足32位则在前补"0"
             strBuilder.insert(0, "0");
         }
