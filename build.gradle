@@ -8,6 +8,10 @@ ext {
                     version    : "3.0.4",
                     description: "星空邮件",
             ],
+            json: [
+                    version    : "1.0.0",
+                    description: "星空JSON",
+            ],
     ]
 
     versions = [
@@ -98,12 +102,19 @@ allprojects {
 subprojects {
 
     dependencies {
-        // JetBrains注解
-        implementation("$libs.jetbrainsAnnotation")
-
         // Lombok
         annotationProcessor("$libs.lombok")
         compileOnly("$libs.lombok")
+
+        // 日志框架
+        implementation("$libs.logback")
+
+        // JetBrains注解
+        implementation("$libs.jetbrainsAnnotation")
+
+        // Junit5
+        testImplementation("$libs.junit.jupiterApi")
+        testRuntimeOnly("$libs.junit.jupiterEngine")
     }
 
     publishing {
