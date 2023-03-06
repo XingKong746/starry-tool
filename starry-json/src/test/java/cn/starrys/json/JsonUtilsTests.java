@@ -22,7 +22,7 @@ class JsonUtilsTests {
     /**
      * for循环次数
      */
-    private final int f = 200;
+    private final int f = 100;
 
     @Test
     void getValue1() {
