@@ -16,54 +16,25 @@ starry-tool
      <dependency>
          <groupId>cn.starrys</groupId>
          <artifactId>starry-mail</artifactId>
-         <version>3.0.2</version>
+         <version>3.1.0</version>
      </dependency>
      ```
 
    - Gradle
 
      ```groovy
-     implementation("cn.starrys:starry-mail:3.0.2")
+     implementation("cn.starrys:starry-mail:3.1.0")
      ```
 
-2. Demo
+2. 演示
 
    ```java
    public class Demo {
        public static void main(String[] args) {
-           // 邮件配置
-           MailProps mailProps = new MailProps();
-           // 设置邮件主机
-           mailProps.setHost("smtp.163.com");
-           // 设置主机端口
-           mailProps.setPort(465);
-           // 发件人邮箱
-           mailProps.setFrom("xxx@163.com");
-           // 授权码
-           mailProps.setPassword("YUJOLACXLxxxxxxx");
-           // 发件者昵称
-           mailProps.setNickname("星空");
-   
-           // 一封邮件
-           Mail mail = new Mail();
-           ArrayList<MailAddressee> to = new ArrayList<>();
-           // 创建收件人
-           to.add(new MailAddressee("330139xxxx@qq.com", "收件人昵称"));
-           to.add(new MailAddressee("184160xxxx@qq.com", "收件人昵称"));
-           // 设置收件人
-           mail.setTo(to);
-           // 邮件标题
-           mail.setSubject("测试邮件");
-           // 邮件内容
-           mail.setBody("你好");
-   
-           MailTools mailTools = new MailTools(mailProps);
+           // 创建邮件工具
+           MailTools mailTools = new MailTools("smtp.163.com", 465, 发件邮箱, 发件邮箱授权码, "⭐");
            // 发送邮件
-           boolean sendStatus = mailTools.send(mail);
-           System.out.println("发送状态：" + sendStatus);
-   
-           // 简单方法
-           // mailTools.send("330139xxxx@qq.com", "收件者昵称", "标题", "内容");
+           boolean sendStatus = mailTools.send(收件邮箱, "你好呀", "QwQ");
        }
    }
    ```
@@ -79,17 +50,17 @@ starry-tool
      <dependency>
          <groupId>cn.starrys</groupId>
          <artifactId>starry-mail-spring-boot-starter</artifactId>
-         <version>3.0.2</version>
+         <version>3.1.0</version>
      </dependency>
      ```
 
    - Gradle
 
      ```groovy
-     implementation("cn.starrys:starry-mail-spring-boot-starter:3.0.2")
+     implementation("cn.starrys:starry-mail-spring-boot-starter:3.1.0")
      ```
 
-2. Demo
+2. 演示
 
    - application.yml
 
@@ -116,4 +87,64 @@ starry-tool
          }
      }
      ```
+
+### starry-json
+
+1. 引入依赖
+
+   - Maven
+
+     ```xml
+     <dependency>
+         <groupId>cn.starrys</groupId>
+         <artifactId>starry-json</artifactId>
+         <version>1.1.0</version>
+     </dependency>
+     ```
+
+   - Gradle
+
+     ```groovy
+     implementation("cn.starrys:starry-json:1.1.0")
+     ```
+
+2. 演示
+
+   ```java
+   public class Demo {
+       /**
+        * <pre>
+        * {
+        *   "code": 200,
+        *   "message": "成功",
+        *   "data": {
+        *     "username": "用户名0",
+        *     "password": "密码0",
+        *     "roles": [
+        *       {
+        *         "roleDescription": "角色描述0",
+        *         "roleName": "角色0",
+        *         "permissions": [
+        *           {
+        *             "permissionName": "权限0",
+        *             "permissionDescription": "权限描述0"
+        *           },
+        *           {
+        *             "permissionName": "权限1",
+        *             "permissionDescription": "权限描述1"
+        *           }
+        *         ]
+        *       }
+        *     ]
+        *   }
+        * }
+        * </pre>
+        */
+       static String json = "{\"code\":200,\"message\":\"成功\",\"data\":{\"username\":\"用户名0\",\"password\":\"密码0\",\"roles\":[{\"roleDescription\":\"角色描述0\",\"roleName\":\"角色0\",\"permissions\":[{\"permissionName\":\"权限0\",\"permissionDescription\":\"权限描述0\"},{\"permissionName\":\"权限1\",\"permissionDescription\":\"权限描述1\"}]}]}}";
+       public static void main(String[] args) {
+           Map value = JsonTools.getValue(json, "data.roles[0].permissions[1]", Map.class);
+           System.out.println(value.get("permissionName"));
+       }
+   }
+   ```
 
