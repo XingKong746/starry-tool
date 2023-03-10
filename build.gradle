@@ -5,12 +5,12 @@ ext {
                     description: "星空工具",
             ],
             mail: [
-                    version    : "3.0.4",
+                    version    : "3.1.0",
                     description: "星空邮件",
             ],
             json: [
                     version    : "1.1.0",
-                    description: "星空JSON",
+                    description: "星空 Json",
             ],
     ]
 
@@ -20,11 +20,11 @@ ext {
             lombok             : "1.18.24",
             logback            : "1.4.5",
             javaxMail          : "1.6.7",
-            jakartaMail        : "1.1.0",
-            springBoot         : "3.0.2",
+            jakartaMail        : "2.0.1",
+            springBoot         : "3.0.4",
+            fastjson2          : "2.0.24",
             gson               : "2.10.1",
             jackson            : "2.14.2",
-            fastjson2          : "2.0.24",
     ]
 
     libs = [
