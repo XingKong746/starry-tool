@@ -13,6 +13,9 @@ import com.google.gson.JsonParser;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Json 工具。<br>
@@ -24,7 +27,24 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.NONE)
-public class JsonUtils {
+public class JsonTools {
+
+    public static <T> @Nullable T getValue(String json, String path, Class<T> type) {
+        T value;
+        try {
+            value = getValue1(json, path, type);
+            if (value != null) return value;
+        } catch (Exception e) {
+            log.error("FastJson2 解析异常，正在尝试使用 Gson 宽松解析", e);
+        }
+        try {
+            value = getValue2(json, path, type);
+            if (value != null) return value;
+        } catch (Exception e) {
+            log.error("Gson 也解析异常", e);
+        }
+        return null;
+    }
 
     private static final ObjectMapper objectMapper = new ObjectMapper();
     private static final Gson gson = new GsonBuilder()
@@ -37,7 +57,8 @@ public class JsonUtils {
      * @param keyPath 节点路径
      * @return 节点数组
      */
-    private static String[] split(String keyPath) {
+    @Contract(pure = true)
+    private static String @NotNull [] split(@NotNull String keyPath) {
         // 根据”.“进行拆分
         return keyPath.split("\\.");
     }
@@ -52,7 +73,7 @@ public class JsonUtils {
      * @param <T>     返回类型
      * @return 指定类型的值
      */
-    public static <T> T getValue(String jsonStr, String keyPath, Class<T> type) {
+    public static <T> @Nullable T getValue1(String jsonStr, String keyPath, Class<T> type) {
         // 节点数组
         String[] keys = split(keyPath);
 
@@ -91,7 +112,7 @@ public class JsonUtils {
 
     /**
      * 获取Json串中指定节点的值。<br>
-     * jackson 实现
+     * gson 实现
      *
      * @param jsonStr Json 字符串
      * @param keyPath 节点路径
@@ -100,6 +121,47 @@ public class JsonUtils {
      * @return 指定类型的值
      */
     public static <T> T getValue2(String jsonStr, String keyPath, Class<T> type) {
+        // 节点数组
+        String[] keys = split(keyPath);
+        for (String key : keys) {
+            // Json 对象
+            JsonObject jsonObject = JsonParser.parseString(jsonStr).getAsJsonObject();
+
+            int begin = key.indexOf('[');
+            int end = key.lastIndexOf(']');
+            // 如果key中包含[]，则表示是数组
+            if (begin != -1 && end != -1) {
+                // key
+                String k = key.substring(0, begin);
+                // index
+                int i = Integer.parseInt(key.substring(begin + 1, end));
+                try {
+                    // 获取数组中的值
+                    jsonStr = jsonObject.get(k).getAsJsonArray().get(i).toString();
+                } catch (IllegalStateException e) {
+                    log.error("{} 并非数组", k, e);
+                } catch (IndexOutOfBoundsException e) {
+                    log.error("数组越界", e);
+                }
+            } else {
+                // 获取对象中的值
+                jsonStr = jsonObject.get(key).toString();
+            }
+        }
+        return gson.fromJson(jsonStr, type);
+    }
+
+    /**
+     * 获取Json串中指定节点的值。<br>
+     * jackson 实现
+     *
+     * @param jsonStr Json 字符串
+     * @param keyPath 节点路径
+     * @param type    转换类型
+     * @param <T>     返回类型
+     * @return 指定类型的值
+     */
+    public static <T> @Nullable T getValue3(String jsonStr, String keyPath, Class<T> type) {
         // 节点数组
         String[] keys = split(keyPath);
         try {
@@ -129,47 +191,6 @@ public class JsonUtils {
             log.error("发生了空指针：也许是下标越界造成的", e);
         }
         return null;
-    }
-
-    /**
-     * 获取Json串中指定节点的值。<br>
-     * gson 实现
-     *
-     * @param jsonStr Json 字符串
-     * @param keyPath 节点路径
-     * @param type    转换类型
-     * @param <T>     返回类型
-     * @return 指定类型的值
-     */
-    public static <T> T getValue3(String jsonStr, String keyPath, Class<T> type) {
-        // 节点数组
-        String[] keys = split(keyPath);
-        for (String key : keys) {
-            // Json 对象
-            JsonObject jsonObject = JsonParser.parseString(jsonStr).getAsJsonObject();
-
-            int begin = key.indexOf('[');
-            int end = key.lastIndexOf(']');
-            // 如果key中包含[]，则表示是数组
-            if (begin != -1 && end != -1) {
-                // key
-                String k = key.substring(0, begin);
-                // index
-                int i = Integer.parseInt(key.substring(begin + 1, end));
-                try {
-                    // 获取数组中的值
-                    jsonStr = jsonObject.get(k).getAsJsonArray().get(i).toString();
-                } catch (IllegalStateException e) {
-                    log.error("{} 并非数组", k, e);
-                } catch (IndexOutOfBoundsException e) {
-                    log.error("数组越界", e);
-                }
-            } else {
-                // 获取对象中的值
-                jsonStr = jsonObject.get(key).toString();
-            }
-        }
-        return gson.fromJson(jsonStr, type);
     }
 
 }

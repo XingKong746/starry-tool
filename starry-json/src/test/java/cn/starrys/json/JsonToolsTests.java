@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-class JsonUtilsTests {
+class JsonToolsTests {
     String json;
 
     /**
@@ -30,7 +30,7 @@ class JsonUtilsTests {
         long start = System.currentTimeMillis();
         for (int i = 0; i < f; i++) {
             int r = random.nextInt(n);
-            User user = JsonUtils.getValue(
+            User user = JsonTools.getValue1(
                     json,
                     "data[%s].roles[%s].permissions[%s].other.mapList[%s].user%s".formatted(r, r, r, r, r),
                     User.class
@@ -47,7 +47,7 @@ class JsonUtilsTests {
         long start = System.currentTimeMillis();
         for (int i = 0; i < f; i++) {
             int r = random.nextInt(n);
-            User user = JsonUtils.getValue2(
+            User user = JsonTools.getValue2(
                     json,
                     "data[%s].roles[%s].permissions[%s].other.mapList[%s].user%s".formatted(r, r, r, r, r),
                     User.class
@@ -64,7 +64,7 @@ class JsonUtilsTests {
         long start = System.currentTimeMillis();
         for (int i = 0; i < f; i++) {
             int r = random.nextInt(n);
-            User user = JsonUtils.getValue3(
+            User user = JsonTools.getValue3(
                     json,
                     "data[%s].roles[%s].permissions[%s].other.mapList[%s].user%s".formatted(r, r, r, r, r),
                     User.class
@@ -122,5 +122,14 @@ class JsonUtilsTests {
 
         long stop = System.currentTimeMillis();
         System.out.println("转换对象到Json字符串共耗时：" + (stop - start) + "毫秒");
+    }
+
+    @Test
+    void test() {
+        System.out.println(JsonTools.getValue("""
+                {
+                    data: 你好
+                }
+                """, "data", String.class));
     }
 }
