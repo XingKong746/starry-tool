@@ -20,7 +20,7 @@ class MailToolsTests {
     @BeforeAll
     static void init() throws IOException {
         Properties properties = new Properties();
-        // 从 classpath(Resource) 路径下读取配置文件 // 涉及机密，就不上传到 git
+        // 从 classpath(Resource) 路径下读取配置文件 // 涉及password等，就不上传到 git
         InputStream inputStream = MailToolsTests.class.getClassLoader().getResourceAsStream("mail.properties");
         properties.load(inputStream);
         props = properties;
