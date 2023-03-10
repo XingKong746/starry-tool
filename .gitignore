@@ -1,17 +1,15 @@
-### IntelliJ IDEA ###
+.gradle
 .idea
 *.iws
 *.iml
 *.ipr
-out/
-!**/src/main/**/out/
-!**/src/test/**/out/
+.vscode
 
-.gradle
-build/
-!gradle/wrapper/gradle-wrapper.jar
-!**/src/main/**/build/
-!**/src/test/**/build/
+# Gradle 编译目录
+**/build/
+# idea out 目录
+**/out/
+# maven target 目录
+**/target/
 
-### VS Code ###
-.vscode/
+starry-mail/src/test/resources/mail.properties
