@@ -9,7 +9,7 @@ ext {
                     description: "星空邮件",
             ],
             json: [
-                    version    : "1.0.1",
+                    version    : "1.1.0",
                     description: "星空JSON",
             ],
     ]
@@ -45,9 +45,9 @@ ext {
                             configurationProcessor: "org.springframework.boot:spring-boot-configuration-processor:$versions.springBoot",
                     ],
             ],
+            fastjson2          : "com.alibaba.fastjson2:fastjson2:$versions.fastjson2",
             gson               : "com.google.code.gson:gson:$versions.gson",
             jackson            : "com.fasterxml.jackson.core:jackson-databind:$versions.jackson",
-            fastjson2          : "com.alibaba.fastjson2:fastjson2:$versions.fastjson2",
     ]
 }
 

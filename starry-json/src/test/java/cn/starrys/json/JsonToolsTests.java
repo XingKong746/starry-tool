@@ -1,8 +1,7 @@
 package cn.starrys.json;
 
 import cn.starrys.json.pojo.*;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.alibaba.fastjson2.JSON;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -25,46 +24,12 @@ class JsonToolsTests {
     private final int f = 100;
 
     @Test
-    void getValue1() {
+    void getValue() {
         Random random = new Random();
         long start = System.currentTimeMillis();
         for (int i = 0; i < f; i++) {
             int r = random.nextInt(n);
-            User user = JsonTools.getValue1(
-                    json,
-                    "data[%s].roles[%s].permissions[%s].other.mapList[%s].user%s".formatted(r, r, r, r, r),
-                    User.class
-            );
-            System.out.println(user);
-        }
-        long stop = System.currentTimeMillis();
-        System.out.println("转换Json节点到对象共耗时：" + (stop - start) + "毫秒");
-    }
-
-    @Test
-    void getValue2() {
-        Random random = new Random();
-        long start = System.currentTimeMillis();
-        for (int i = 0; i < f; i++) {
-            int r = random.nextInt(n);
-            User user = JsonTools.getValue2(
-                    json,
-                    "data[%s].roles[%s].permissions[%s].other.mapList[%s].user%s".formatted(r, r, r, r, r),
-                    User.class
-            );
-            System.out.println(user);
-        }
-        long stop = System.currentTimeMillis();
-        System.out.println("转换Json节点到对象共耗时：" + (stop - start) + "毫秒");
-    }
-
-    @Test
-    void getValue3() {
-        Random random = new Random();
-        long start = System.currentTimeMillis();
-        for (int i = 0; i < f; i++) {
-            int r = random.nextInt(n);
-            User user = JsonTools.getValue3(
+            User user = JsonTools.getValue(
                     json,
                     "data[%s].roles[%s].permissions[%s].other.mapList[%s].user%s".formatted(r, r, r, r, r),
                     User.class
@@ -110,11 +75,11 @@ class JsonToolsTests {
         long start = System.currentTimeMillis();
 
         // gson：n=10，平均 160 毫秒
-        Gson gson = new GsonBuilder().serializeNulls().create();
-        json = gson.toJson(result);
+        // Gson gson = new GsonBuilder().serializeNulls().create();
+        // json = gson.toJson(result);
 
         // fastjson2：n=10，平均 190 毫秒
-        // json = JSON.toJSONString(result);
+        json = JSON.toJSONString(result);
 
         // jackson：n=10，平均 340 毫秒
         // ObjectMapper objectMapper = new ObjectMapper();
@@ -124,12 +89,4 @@ class JsonToolsTests {
         System.out.println("转换对象到Json字符串共耗时：" + (stop - start) + "毫秒");
     }
 
-    @Test
-    void test() {
-        System.out.println(JsonTools.getValue("""
-                {
-                    data: 你好
-                }
-                """, "data", String.class));
-    }
 }

@@ -3,6 +3,4 @@ description = starry.json.description
 
 dependencies {
     api("$libs.fastjson2")
-    api("$libs.gson")
-    api("$libs.jackson")
 }
