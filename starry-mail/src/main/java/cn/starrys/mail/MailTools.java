@@ -1,6 +1,8 @@
 package cn.starrys.mail;
 
-import cn.starrys.mail.entity.*;
+import cn.starrys.mail.entity.Mail;
+import cn.starrys.mail.entity.MailAddressee;
+import cn.starrys.mail.entity.MailProps;
 import jakarta.mail.*;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeBodyPart;
@@ -12,7 +14,6 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
@@ -27,49 +28,9 @@ import java.util.*;
 public class MailTools {
 
     /**
-     * 主机。
+     * 邮件配置。
      */
-    private final @NotNull String host;
-
-    /**
-     * 主机端口。
-     */
-    private final @NotNull Integer port;
-
-    /**
-     * 发件邮箱。
-     */
-    private final @NotNull String from;
-
-    /**
-     * 发件邮箱授权码。
-     */
-    private final @NotNull String password;
-
-    /**
-     * 昵称。
-     */
-    private final String nickname;
-
-    /**
-     * 启用 ssl。
-     */
-    private final boolean ssl;
-
-    /**
-     * 开启debug模式。
-     */
-    private final boolean debug;
-
-    /**
-     * 邮件编码。
-     */
-    private final Charset charset;
-
-    /**
-     * 开启鉴权。
-     */
-    private final boolean auth;
+    private final @NotNull MailProps mailProps;
 
     /**
      * 最简构造。
@@ -107,7 +68,7 @@ public class MailTools {
      * @param ssl      启用 ssl。
      */
     public MailTools(@NotNull String host, @NotNull Integer port, @NotNull String from, @NotNull String password, String nickname, boolean ssl) {
-        this(host, port, from, password, nickname, ssl, false, StandardCharsets.UTF_8);
+        this(host, port, from, password, nickname, ssl, false);
     }
 
     /**
@@ -120,44 +81,18 @@ public class MailTools {
      * @param nickname 昵称。
      * @param ssl      启用 ssl。
      * @param debug    开启debug模式。
-     * @param charset  邮件编码。
      */
-    public MailTools(@NotNull String host, @NotNull Integer port, @NotNull String from, @NotNull String password, String nickname, boolean ssl, boolean debug, Charset charset) {
-        this(host, port, from, password, nickname, ssl, debug, charset, true);
-    }
-
-    /**
-     * 全参构造。
-     *
-     * @param host     主机。
-     * @param port     主机端口。
-     * @param from     发件邮箱。
-     * @param password 发件邮箱授权码。
-     * @param nickname 昵称。
-     * @param ssl      启用 ssl。
-     * @param debug    开启debug模式。
-     * @param charset  邮件编码。
-     * @param auth     开启鉴权。
-     */
-    public MailTools(@NotNull String host, @NotNull Integer port, @NotNull String from, @NotNull String password, String nickname, boolean ssl, boolean debug, Charset charset, boolean auth) {
-        this(new MailProps(host, port, from, password, nickname, ssl, debug, charset, auth));
+    public MailTools(@NotNull String host, @NotNull Integer port, @NotNull String from, @NotNull String password, String nickname, boolean ssl, boolean debug) {
+        this(new MailProps(host, port, from, password, nickname, ssl, debug, StandardCharsets.UTF_8, true));
     }
 
     /**
      * 最终构造方法
      *
-     * @param props {@link MailProps} 邮件配置。
+     * @param mailProps {@link MailProps} 邮件配置。
      */
-    public MailTools(@NotNull MailProps props) {
-        this.host = props.getHost();
-        this.port = props.getPort();
-        this.from = props.getFrom();
-        this.password = props.getPassword();
-        this.nickname = props.getNickname();
-        this.ssl = props.isSsl();
-        this.debug = props.isDebug();
-        this.charset = props.getCharset();
-        this.auth = props.isAuth();
+    public MailTools(@NotNull MailProps mailProps) {
+        this.mailProps = mailProps;
     }
 
     /**
@@ -166,10 +101,10 @@ public class MailTools {
      * @param protocol 指定协议
      * @return {@link Session Session 对象}。
      */
-    public Session getSession(@NotNull MailProtocol protocol) {
+    public Session getSession(@NotNull MailProps.Protocols protocol) {
         Properties properties = new Properties();
 
-        if (MailProtocol.SMTP == protocol) {
+        if (MailProps.Protocols.SMTP == protocol) {
             // 发送邮件时分配给协议的名称
             properties.setProperty("mail.transport.protocol", protocol.get());
         } else {
@@ -178,42 +113,34 @@ public class MailTools {
         }
 
         // 邮箱服务器地址
-        properties.setProperty("mail.host", host);
+        properties.setProperty("mail.host", this.mailProps.getHost());
 
         // 端口
-        properties.setProperty(String.format("mail.%s.port", protocol), port.toString());
+        properties.setProperty(String.format("mail.%s.port", protocol), this.mailProps.getPort().toString());
 
         // 发件邮箱
-        properties.setProperty("mail.from", from);
+        properties.setProperty("mail.from", this.mailProps.getFrom());
 
         // 发件邮箱授权码
-        properties.setProperty("mail.password", password);
+        properties.setProperty("mail.password", this.mailProps.getPassword());
 
-        Optional.ofNullable(nickname).ifPresent(name ->
+        Optional.ofNullable(this.mailProps.getNickname()).ifPresent(name ->
                 // 发信昵称
                 properties.setProperty("mail.user", name)
         );
 
-        if (ssl) {
+        if (this.mailProps.isSsl()) {
             // 开启 ssl
             properties.setProperty(String.format("mail.%s.ssl.enable", protocol), "true");
             properties.setProperty(String.format("mail.%s.ssl.socketFactory", protocol), "javax.net.ssl.SSLSocketFactory");
-
-            // 第二种开启 SSL 方法
-            /*
-            MailSSLSocketFactory 。 mailSSLSocketFactory = new MailSSLSocketFactory()
-            mailSSLSocketFactory.setTrustedHosts(host)
-            props.setProperty("mail." + protocol + ".ssl.enable", "true")
-            props.setProperty("mail." + protocol + ".ssl.socketFactory", mailSSLSocketFactory.toString())
-            */
         }
 
-        if (auth) {
+        if (this.mailProps.isAuth()) {
             // 开启鉴权
             properties.setProperty(String.format("mail.%s.auth", protocol), "true");
         }
 
-        if (debug) {
+        if (this.mailProps.isDebug()) {
             // Debug
             properties.setProperty("mail.debug", "true");
         }
@@ -228,11 +155,11 @@ public class MailTools {
      * @return {@link Session Session 对象}。
      */
     private Session getSession(Properties props) {
-        if (auth) {
+        if (mailProps.isAuth()) {
             return Session.getDefaultInstance(props, new Authenticator() {
                 @Override
                 protected PasswordAuthentication getPasswordAuthentication() {
-                    return new PasswordAuthentication(from, password);
+                    return new PasswordAuthentication(mailProps.getFrom(), mailProps.getPassword());
                 }
             });
         }
@@ -251,52 +178,34 @@ public class MailTools {
             MimeMessage mimeMessage = new MimeMessage(session);
 
             // 发件人
-            mimeMessage.setFrom(new InternetAddress(from, nickname, charset.name()));
+            mimeMessage.setFrom(new InternetAddress(mailProps.getFrom(), mailProps.getNickname(), mailProps.getCharset().name()));
 
-            List<MailAddressee> mailTo = mail.getTo();
-            InternetAddress[] to = new InternetAddress[mailTo.size()];
-            for (int i = 0; i < to.length; i++) {
-                MailAddressee addressee = mailTo.get(i);
-                to[i] = new InternetAddress(addressee.getAddressee(), addressee.getNickname(), charset.name());
-            }
             // 收件人
-            mimeMessage.setRecipients(Message.RecipientType.TO, to);
+            mimeMessage.setRecipients(Message.RecipientType.TO, createInternetAddresses(mail.getTo()));
 
-            List<MailAddressee> mailCc = mail.getCc();
-            // 抄送人可以没有
-            if (mailCc != null) {
-                InternetAddress[] cc = new InternetAddress[mailCc.size()];
-                for (int i = 0; i < cc.length; i++) {
-                    MailAddressee addressee = mailCc.get(i);
-                    cc[i] = new InternetAddress(addressee.getAddressee(), addressee.getNickname(), charset.name());
-                }
+            List<MailAddressee> cc = mail.getCc();
+            if (cc != null) {
                 // 抄送人
-                mimeMessage.setRecipients(Message.RecipientType.CC, cc);
+                mimeMessage.setRecipients(Message.RecipientType.CC, createInternetAddresses(cc));
             }
 
-            List<MailAddressee> mailBcc = mail.getBcc();
-            // 密送人可以没有
-            if (mailBcc != null) {
-                InternetAddress[] bcc = new InternetAddress[mailBcc.size()];
-                for (int i = 0; i < bcc.length; i++) {
-                    MailAddressee addressee = mailBcc.get(i);
-                    bcc[i] = new InternetAddress(addressee.getAddressee(), addressee.getNickname(), charset.name());
-                }
+            List<MailAddressee> bcc = mail.getBcc();
+            if (bcc != null) {
                 // 密送人
-                mimeMessage.setRecipients(Message.RecipientType.BCC, bcc);
+                mimeMessage.setRecipients(Message.RecipientType.BCC, createInternetAddresses(bcc));
             }
 
             // 邮件主题
-            mimeMessage.setSubject(mail.getSubject(), charset.name());
+            mimeMessage.setSubject(mail.getSubject(), mailProps.getCharset().name());
 
             // 邮件内容
             MimeBodyPart mimeBodyPart = new MimeBodyPart();
-            if (mail.getMailType() == MailType.TEXT) {
+            if (mail.getType() == Mail.Type.TEXT) {
                 // text格式
-                mimeBodyPart.setText(mail.getBody(), charset.name());
+                mimeBodyPart.setText(mail.getBody(), mailProps.getCharset().name());
             } else {
                 // html格式
-                mimeBodyPart.setContent(mail.getBody(), "text/html;charset=" + charset.name());
+                mimeBodyPart.setContent(mail.getBody(), "text/html;charset=" + mailProps.getCharset().name());
             }
 
             // 邮件体
@@ -326,13 +235,28 @@ public class MailTools {
 
             return mimeMessage;
         } catch (UnsupportedEncodingException e) {
-            log.error("不支持 “{}” 此编码", charset, e);
+            log.error("不支持 “{}” 此编码", mailProps.getCharset(), e);
         } catch (MessagingException e) {
             log.error("创建邮件信息异常！", e);
         } catch (IOException e) {
             log.error("添加附件异常！", e);
         }
         return null;
+    }
+
+    /**
+     * 创建 {@link InternetAddress} 对象。
+     *
+     * @param addresseeList {@link MailAddressee} 邮件收件人列表。
+     * @return {@link InternetAddress} 对象数组。
+     */
+    private InternetAddress @NotNull [] createInternetAddresses(@NotNull List<MailAddressee> addresseeList) throws UnsupportedEncodingException {
+        InternetAddress[] internetAddresses = new InternetAddress[addresseeList.size()];
+        for (int i = 0; i < internetAddresses.length; i++) {
+            MailAddressee mailAddressee = addresseeList.get(i);
+            internetAddresses[i] = new InternetAddress(mailAddressee.getAddressee(), mailAddressee.getNickname(), mailProps.getCharset().name());
+        }
+        return internetAddresses;
     }
 
     /**
@@ -386,37 +310,7 @@ public class MailTools {
      * @return 发送结果。
      */
     public boolean send(List<MailAddressee> to, String subject, String body, List<File> attachments) {
-        return send(to, subject, body, attachments, MailType.HTML);
-    }
-
-    /**
-     * 发送邮件。
-     *
-     * @param to          收件人(主要收件人)。
-     * @param subject     邮件主题（标题）。
-     * @param body        邮件内容（主体）。
-     * @param attachments 附件。
-     * @param mailType    邮件类型（HTML,TEXT）
-     * @return 发送结果。
-     */
-    public boolean send(List<MailAddressee> to, String subject, String body, List<File> attachments, MailType mailType) {
-        return send(to, subject, body, attachments, mailType, null, null);
-    }
-
-    /**
-     * 发送邮件。
-     *
-     * @param to          收件人(主要收件人)。
-     * @param subject     邮件主题（标题）。
-     * @param body        邮件内容（主体）。
-     * @param attachments 附件。
-     * @param mailType    邮件类型（HTML,TEXT）
-     * @param cc          抄送(carbon copy)收件人。
-     * @param bcc         密送(blind carbon copy)收件人。
-     * @return 发送结果。
-     */
-    public boolean send(List<MailAddressee> to, String subject, String body, List<File> attachments, MailType mailType, List<MailAddressee> cc, List<MailAddressee> bcc) {
-        return send(new Mail(to, subject, body, attachments, mailType, cc, bcc));
+        return send(new Mail(to, subject, body, attachments, Mail.Type.HTML, null, null));
     }
 
     /**
@@ -426,7 +320,7 @@ public class MailTools {
      * @return 发送结果。
      */
     public boolean send(Mail mail) {
-        return send(createMimeMessage(getSession(MailProtocol.SMTP), mail));
+        return send(createMimeMessage(getSession(MailProps.Protocols.SMTP), mail));
     }
 
     /**
@@ -436,7 +330,7 @@ public class MailTools {
      * @return 发送结果。
      */
     public boolean send(MimeMessage msg) {
-        if (auth) {
+        if (mailProps.isAuth()) {
             try {
                 Transport.send(msg);
             } catch (MessagingException e) {
@@ -446,7 +340,7 @@ public class MailTools {
         } else {
             Session session = msg.getSession();
             try (Transport transport = session.getTransport()) {
-                transport.connect(host, port, from, password);
+                transport.connect(mailProps.getHost(), mailProps.getPort(), mailProps.getFrom(), mailProps.getPassword());
                 transport.sendMessage(msg, msg.getAllRecipients());
             } catch (MessagingException e) {
                 log.error("邮件发送失败！", e);
