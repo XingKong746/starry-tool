@@ -12,6 +12,7 @@ import java.util.UUID;
  * creationTime: 2023/2/18 15:28 .
  *
  * @author XingKong
+ * @deprecated 未确定的工具。
  */
 @Deprecated(since = "1.0.0", forRemoval = true)
 @NoArgsConstructor(access = AccessLevel.NONE)
