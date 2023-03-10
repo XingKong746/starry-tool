@@ -43,7 +43,7 @@ public class Mail {
     /**
      * 邮件类型（HTML,TEXT）
      */
-    private MailType mailType = MailType.HTML;
+    private Type type = Type.HTML;
 
     /**
      * 抄送(carbon copy)收件人。
@@ -54,5 +54,19 @@ public class Mail {
      * 密送(blind carbon copy)收件人。
      */
     private List<MailAddressee> bcc;
+
+    /**
+     * 邮件类型。
+     */
+    public enum Type {
+        /**
+         * HTML类型
+         */
+        HTML,
+        /**
+         * 文本类型
+         */
+        TEXT
+    }
 
 }

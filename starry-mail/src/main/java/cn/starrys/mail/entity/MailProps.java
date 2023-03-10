@@ -65,4 +65,43 @@ public class MailProps {
      */
     private boolean auth = true;
 
+    /**
+     * 邮件协议。
+     */
+    public enum Protocols {
+        /**
+         * smtp 协议。
+         */
+        SMTP("smtp"),
+        /**
+         * imap 协议。
+         */
+        IMAP("imap"),
+        /**
+         * pop3 协议。
+         */
+        POP3("pop3");
+        /**
+         * 协议字符串。
+         */
+        private final String protocol;
+
+        Protocols(String protocol) {
+            this.protocol = protocol;
+        }
+
+        /**
+         * 获取该协议的字符串名称。
+         *
+         * @return 该协议的字符串名称。
+         */
+        public String get() {
+            return protocol;
+        }
+
+        @Override
+        public String toString() {
+            return get();
+        }
+    }
 }
