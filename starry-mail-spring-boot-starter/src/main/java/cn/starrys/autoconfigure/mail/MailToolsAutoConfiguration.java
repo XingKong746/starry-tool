@@ -1,6 +1,7 @@
 package cn.starrys.autoconfigure.mail;
 
 import cn.starrys.mail.MailTools;
+import cn.starrys.mail.entity.MailProps;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -32,7 +33,7 @@ public class MailToolsAutoConfiguration {
             name = {"host", "port", "from", "password"}
     )
     public MailTools createMailTools(@NotNull MailProperties properties) {
-        return new MailTools(
+        return new MailTools(new MailProps(
                 properties.getHost(),
                 properties.getPort(),
                 properties.getFrom(),
@@ -42,7 +43,7 @@ public class MailToolsAutoConfiguration {
                 properties.isDebug(),
                 properties.getCharset(),
                 properties.isAuth()
-        );
+        ));
     }
 
 }
