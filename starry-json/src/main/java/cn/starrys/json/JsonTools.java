@@ -12,8 +12,6 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * Json 工具。<br>
- * 同时实现了目前主流的Json解析库的使用。
- * <p>
  * creationTime: 2023/3/6 10:20 .
  *
  * @author XingKong
