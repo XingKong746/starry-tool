@@ -1,4 +1,4 @@
-package cn.starrys.json;
+package cn.starrys.core.util;
 
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONException;
@@ -18,7 +18,7 @@ import org.jetbrains.annotations.Nullable;
  */
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.NONE)
-public class JsonTools {
+public class JsonUtils {
 
     /**
      * 拆分keyPath
