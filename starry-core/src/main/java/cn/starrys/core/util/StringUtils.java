@@ -16,7 +16,7 @@ import java.security.NoSuchAlgorithmException;
  *
  * @author XingKong
  */
-@NoArgsConstructor(access = AccessLevel.NONE)
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class StringUtils {
 
     /**

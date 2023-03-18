@@ -14,7 +14,7 @@ import java.sql.Timestamp;
  *
  * @author XingKong
  */
-@NoArgsConstructor(access = AccessLevel.NONE)
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class DateUtils {
 
     /**
