@@ -15,14 +15,14 @@ ext {
     ]
 
     versions = [
-            jupiter            : "5.9.0",
-            jetbrainsAnnotation: "23.0.0",
-            lombok             : "1.18.24",
+            jupiter            : "5.9.2",
+            jetbrainsAnnotation: "24.0.1",
+            lombok             : "1.18.26",
             logback            : "1.4.5",
             javaxMail          : "1.6.7",
             jakartaMail        : "2.0.1",
             springBoot         : "3.0.4",
-            fastjson2          : "2.0.24",
+            fastjson2          : "2.0.25",
             gson               : "2.10.1",
             jackson            : "2.14.2",
     ]
