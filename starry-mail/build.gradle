@@ -1,7 +1,4 @@
-version = starry.mail.version
-description = starry.mail.description
-
 dependencies {
-    // api(project(":starry-core"))
-    api("$libs.jakartaMail")
+    api(project(":starry-core"))
+    api("org.eclipse.angus:jakarta.mail")
 }

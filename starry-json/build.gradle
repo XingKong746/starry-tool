@@ -1,6 +1,0 @@
-version = starry.json.version
-description = starry.json.description
-
-dependencies {
-    api("$libs.fastjson2")
-}
