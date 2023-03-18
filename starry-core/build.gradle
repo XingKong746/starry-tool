@@ -1,4 +1,7 @@
 version = starry.core.version
 description = starry.core.description
 
-dependencies {}
+dependencies {
+    api("jakarta.servlet:jakarta.servlet-api:6.0.0")
+    api("$libs.fastjson2")
+}
