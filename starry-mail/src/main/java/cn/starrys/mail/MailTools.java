@@ -113,34 +113,34 @@ public class MailTools {
         }
 
         // 邮箱服务器地址
-        properties.setProperty("mail.host", this.mailProps.getHost());
+        properties.setProperty("mail.host", mailProps.getHost());
 
         // 端口
-        properties.setProperty(String.format("mail.%s.port", protocol), this.mailProps.getPort().toString());
+        properties.setProperty(String.format("mail.%s.port", protocol), mailProps.getPort().toString());
 
         // 发件邮箱
-        properties.setProperty("mail.from", this.mailProps.getFrom());
+        properties.setProperty("mail.from", mailProps.getFrom());
 
         // 发件邮箱授权码
-        properties.setProperty("mail.password", this.mailProps.getPassword());
+        properties.setProperty("mail.password", mailProps.getPassword());
 
-        Optional.ofNullable(this.mailProps.getNickname()).ifPresent(name ->
+        Optional.ofNullable(mailProps.getNickname()).ifPresent(name ->
                 // 发信昵称
                 properties.setProperty("mail.user", name)
         );
 
-        if (this.mailProps.isSsl()) {
+        if (mailProps.isSsl()) {
             // 开启 ssl
             properties.setProperty(String.format("mail.%s.ssl.enable", protocol), "true");
             properties.setProperty(String.format("mail.%s.ssl.socketFactory", protocol), "javax.net.ssl.SSLSocketFactory");
         }
 
-        if (this.mailProps.isAuth()) {
+        if (mailProps.isAuth()) {
             // 开启鉴权
             properties.setProperty(String.format("mail.%s.auth", protocol), "true");
         }
 
-        if (this.mailProps.isDebug()) {
+        if (mailProps.isDebug()) {
             // Debug
             properties.setProperty("mail.debug", "true");
         }
