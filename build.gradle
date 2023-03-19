@@ -22,18 +22,18 @@ allprojects {
     }
 
     group = "cn.starrys"
-    version = "1.0.0"
+    version = "3.1.1-SNAPSHOT"
     description = "星空工具"
 
     dependencyManagement {
         dependencies {
             dependency("org.projectlombok:lombok:$lombokVersion")
             dependency("ch.qos.logback:logback-classic:$logbackVersion")
+            dependency("org.jetbrains:annotations:$jetbrainsAnnotationVersion")
             dependencySet(group: "org.junit.jupiter", version: jupiterVersion) {
                 entry("junit-jupiter-api")
                 entry("junit-jupiter-engine")
             }
-            dependency("org.jetbrains:annotations:$jetbrainsAnnotationVersion")
             dependency("org.eclipse.angus:jakarta.mail:$jakartaMailVersion")
             dependencySet(group: "org.springframework.boot", version: springBootVersion) {
                 entry("spring-boot-autoconfigure")
@@ -92,16 +92,14 @@ subprojects {
         // Lombok
         annotationProcessor("org.projectlombok:lombok")
         compileOnly("org.projectlombok:lombok")
-
         // 日志框架
         implementation("ch.qos.logback:logback-classic")
+        // JetBrains注解
+        implementation("org.jetbrains:annotations")
 
         // Junit5
         testImplementation("org.junit.jupiter:junit-jupiter-api")
         testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
-
-        // JetBrains注解
-        implementation("org.jetbrains:annotations")
     }
 
     publishing {

@@ -4,6 +4,8 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 /**
+ * 系统属性常量（部分属性）
+ * <p>
  * creationTime: 2023/3/10 10:34 .
  *
  * @author XingKong
