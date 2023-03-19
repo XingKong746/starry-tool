@@ -1,4 +1,4 @@
 dependencies {
     api(project(":starry-core"))
-    api("org.eclipse.angus:jakarta.mail")
+    api("com.sun.mail:jakarta.mail")
 }
