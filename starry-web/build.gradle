@@ -1,0 +1,4 @@
+dependencies {
+    api(project(":starry-core"))
+    api("jakarta.servlet:jakarta.servlet-api")
+}

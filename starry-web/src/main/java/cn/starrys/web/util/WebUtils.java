@@ -1,5 +1,6 @@
-package cn.starrys.core.util;
+package cn.starrys.web.util;
 
+import cn.starrys.core.util.StringUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
