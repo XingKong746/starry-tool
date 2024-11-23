@@ -1,0 +1,33 @@
+[versions] # to declare the version numbers that plugins and libraries will reference.
+lombok = "1.18.34"
+logback = "1.5.11"
+jetbrains-annotation = "26.0.1"
+junit-bom = "5.10.0"
+jakarta-mail = "2.0.3"
+spring-boot = "3.3.4"
+fastjson2 = "2.0.53"
+jakarta-servlet-api = "6.1.0"
+
+#------------------------------
+[libraries] # to define the libraries used in the build files.
+# 两种定义方式
+# lombok = { group = "org.projectlombok", name = "lombok", version.ref = "lombok" }
+# lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
+
+lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
+logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
+jetbrains-annotation = { module = "org.jetbrains:annotations", version.ref = "jetbrains-annotation" }
+junit-bom = { module = "org.junit:junit-bom", version.ref = "junit-bom" }
+jakarta-mail = { module = "org.eclipse.angus:jakarta.mail", version.ref = "jakarta-mail" }
+fastjson2 = { module = "com.alibaba.fastjson2:fastjson2", version.ref = "fastjson2" }
+jakarta-servlet-api = { module = "jakarta.servlet:jakarta.servlet-api", version.ref = "jakarta-servlet-api" }
+
+spring-boot-autoconfigure={module="org.springframework.boot:spring-boot-autoconfigure",version.ref="spring-boot"}
+spring-boot-configuration-processor={module="org.springframework.boot:spring-boot-configuration-processor",version.ref="spring-boot"}
+
+#------------------------------
+[plugins] # to define plugins.
+
+
+#------------------------------
+[bundles] # to define a set of dependencies.

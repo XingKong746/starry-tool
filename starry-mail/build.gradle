@@ -1,4 +1,0 @@
-dependencies {
-    api(project(":starry-core"))
-    api("org.eclipse.angus:jakarta.mail")
-}
