@@ -1,4 +1,4 @@
-package cn.starrys.mail.entity;
+package cn.starrys.tool.mail.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -10,8 +10,6 @@ buildscript {
 }
 
 rootProject.name = "starry-tool"
-
-include("starry-core")
+// include("starry-core")
 include("starry-mail")
 include("starry-mail-spring-boot-starter")
-include("starry-web")

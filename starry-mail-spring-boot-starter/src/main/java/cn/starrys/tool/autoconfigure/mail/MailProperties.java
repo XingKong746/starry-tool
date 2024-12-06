@@ -1,4 +1,4 @@
-package cn.starrys.autoconfigure.mail;
+package cn.starrys.tool.autoconfigure.mail;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

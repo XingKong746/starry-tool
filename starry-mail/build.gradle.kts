@@ -1,6 +1,5 @@
-group = "cn.starrys"
 version = "3.1.1"
-description = "邮件工具"
+description = "星空邮件工具"
 
 dependencies {
     // Lombok

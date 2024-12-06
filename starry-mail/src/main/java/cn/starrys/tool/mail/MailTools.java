@@ -1,8 +1,8 @@
-package cn.starrys.mail;
+package cn.starrys.tool.mail;
 
-import cn.starrys.mail.entity.Mail;
-import cn.starrys.mail.entity.MailAddressee;
-import cn.starrys.mail.entity.MailProps;
+import cn.starrys.tool.mail.entity.Mail;
+import cn.starrys.tool.mail.entity.MailAddressee;
+import cn.starrys.tool.mail.entity.MailProps;
 import jakarta.mail.*;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeBodyPart;

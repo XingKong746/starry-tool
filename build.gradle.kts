@@ -1,8 +1,11 @@
 plugins {
-    id("java-library")// java，可使用api方式导包
-    id("maven-publish")// maven发布插件
-    id("signing")// 组件签名插件
+    id("java-library") // java，可使用api方式导包
+    id("maven-publish") // maven发布插件
+    id("signing") // 组件签名插件
 }
+
+// 范围条件：为特定的项目排除一些配置
+val excludes = arrayOf("bom", "......")
 
 allprojects {
     apply {
@@ -12,7 +15,6 @@ allprojects {
 
     group = "cn.starrys"
     version = "0.0.1-SNAPSHOT"
-    version = "0.0.1"
     description = "星空工具"
 
     repositories {
@@ -28,43 +30,38 @@ allprojects {
 }
 
 subprojects {
-    // 范围条件：为特定的项目排除一些配置
-    val scope: Boolean = !project.name.endsWith("bom")
+    apply {
+        plugin("java-library")// java，可使用api方式导包
+    }
 
-    if (scope) {
-        apply {
-            plugin("java-library")// java，可使用api方式导包
-        }
-
-        tasks.compileJava.configure { options.encoding = "UTF-8" }
-        tasks.compileTestJava.configure { options.encoding = "UTF-8" }
-        tasks.javadoc.configure {
-            options {
-                encoding = "UTF-8"
-                version = true
-            }
-        }
-        tasks.test { useJUnitPlatform() }
-
-        java {
-            // 生成 source.jar
-            withSourcesJar()
-            // 生成 javadoc.jar
-            withJavadocJar()
+    tasks.compileJava.configure { options.encoding = "UTF-8" }
+    tasks.compileTestJava.configure { options.encoding = "UTF-8" }
+    tasks.javadoc.configure {
+        options {
+            encoding = "UTF-8"
+            version = true
         }
     }
+    tasks.test { useJUnitPlatform() }
+
+    java {
+        // 生成 source.jar
+        withSourcesJar()
+        // 生成 javadoc.jar
+        withJavadocJar()
+    }
+
 
     // 发布到Maven仓库方面的配置
     publishing {
         publications {
             create<MavenPublication>("mavenJava") {
-                if (scope) {
-                    from(components["java"])
-                }
+                from(components["java"])
                 pom {
                     // eg: name = "星空的工具包"（此 name 非artifactId）
                     name = project.name
-                    // 描述
+                    name = "${project.group}:${project.name}"
+                    // 描述，子项目最好单独配置一下此处配置，不然只会使用根项目中的描述
                     description = project.description
                     // 项目地址
                     url = "https://gitee.com/XingKong746/starry-tool"
@@ -106,21 +103,30 @@ subprojects {
         }
         repositories {
             maven {
-                name = "OSSRH"
-                // val sonatypeRepository = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2")
-                val sonatypeRepository = uri("https://s01.oss.sonatype.org/content/repositories/releases/")
-                // val sonatypeSnapshotRepository = uri("https://s01.oss.sonatype.org/content/repositories/snapshots")
-                val sonatypeSnapshotRepository = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
+                name = "MavenCentral"
+                val sonatypeRepository = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2")
+                val sonatypeSnapshotRepository = uri("https://s01.oss.sonatype.org/content/repositories/snapshots")
                 url = if (version.toString().endsWith("SNAPSHOT")) sonatypeSnapshotRepository else sonatypeRepository
                 credentials {
-                    username = properties["ossrhUsername"].toString()
-                    password = properties["ossrhPassword"].toString()
+                    username = properties["username"].toString()
+                    password = properties["password"].toString()
                 }
             }
         }
-        // 使用signing插件对jar包签名，否则无法上传到maven仓库
+        // 使用signing插件对jar包签名
         signing {
             sign(publishing.publications["mavenJava"])
         }
     }
+}
+
+fun notEndsWith(mainString: String, endStrings: Array<String>): Boolean {
+    var status: Boolean = true
+    for (endStr in endStrings) {
+        if (mainString.endsWith(endStr)) {
+            status = false
+            break
+        }
+    }
+    return status
 }

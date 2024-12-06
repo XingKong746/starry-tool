@@ -1,8 +1,7 @@
-package cn.starrys.mail;
+package cn.starrys.tool.mail;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,13 +19,13 @@ class MailToolsTests {
     @BeforeAll
     static void init() throws IOException {
         Properties properties = new Properties();
-        // 从 classpath(Resource) 路径下读取配置文件 // 涉及password等，就不上传到 git
+        // 从 classpath(Resource) 路径下读取配置文件 // 涉及password等，就不上传
         InputStream inputStream = MailToolsTests.class.getClassLoader().getResourceAsStream("mail.properties");
         properties.load(inputStream);
         props = properties;
     }
 
-    @Test
+    // @Test
     void sendTest() {
         String from = props.getProperty("from");
         String password = props.getProperty("password");

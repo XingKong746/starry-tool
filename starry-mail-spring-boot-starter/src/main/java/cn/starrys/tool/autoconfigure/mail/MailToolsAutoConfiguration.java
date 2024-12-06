@@ -1,7 +1,7 @@
-package cn.starrys.autoconfigure.mail;
+package cn.starrys.tool.autoconfigure.mail;
 
-import cn.starrys.mail.MailTools;
-import cn.starrys.mail.entity.MailProps;
+import cn.starrys.tool.mail.MailTools;
+import cn.starrys.tool.mail.entity.MailProps;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
