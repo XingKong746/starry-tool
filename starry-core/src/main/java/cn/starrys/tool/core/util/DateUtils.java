@@ -1,4 +1,4 @@
-package cn.starrys.core.util;
+package cn.starrys.tool.core.util;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

@@ -1,5 +1,5 @@
 dependencies {
-    // api(rootProject.project.libs.fastjson2)
+    api(rootProject.project.libs.fastjson2)
 
     // Lombok
     compileOnly(rootProject.libs.lombok)

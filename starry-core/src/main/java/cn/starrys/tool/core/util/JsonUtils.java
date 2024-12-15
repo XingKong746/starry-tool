@@ -1,4 +1,4 @@
-package cn.starrys.core.util;
+package cn.starrys.tool.core.util;
 
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONException;

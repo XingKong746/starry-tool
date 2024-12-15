@@ -5,4 +5,4 @@
  *
  * @author XingKong
  */
-package cn.starrys.core.constant;
+package cn.starrys.tool.core.constant;

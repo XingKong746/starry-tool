@@ -1,4 +1,4 @@
-package cn.starrys.core.constant;
+package cn.starrys.tool.core.constant;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -58,47 +58,47 @@ public final class SystemPropertiesConst {
     public static final String USER_VARIANT = "user.variant";
 
     /**
-     * 运行时环境版本
+     * Java 版本
      */
     public static final String JAVA_VERSION = "java.version";
 
     /**
-     * Java运行时环境版本日期
+     * Java 版本的构建日期
      */
     public static final String JAVA_VERSION_DATE = "java.version.date";
 
     /**
-     * 运行时环境供应商
+     * Java 供应商
      */
     public static final String JAVA_VENDOR = "java.vendor";
 
     /**
-     * URL
+     * Java 供应商 Url
      */
     public static final String JAVA_VENDOR_URL = "java.vendor.url";
 
     /**
-     * url
+     * Java 供应商 问题反馈 Url
      */
     public static final String JAVA_VENDOR_URL_BUG = "java.vendor.url.bug";
 
     /**
-     * 运行时环境供应商版本
+     * Java 供应商版本
      */
     public static final String JAVA_VENDOR_VERSION = "java.vendor.version";
 
     /**
-     * 运行时环境规范名称
+     * Java 规范名称
      */
     public static final String JAVA_SPECIFICATION_NAME = "java.specification.name";
 
     /**
-     * 运行时环境规范供应商
+     * Java 规范供应商
      */
     public static final String JAVA_SPECIFICATION_VENDOR = "java.specification.vendor";
 
     /**
-     * 运行时环境规范版本
+     * Java 规范版本
      */
     public static final String JAVA_SPECIFICATION_VERSION = "java.specification.version";
 
@@ -163,10 +163,13 @@ public final class SystemPropertiesConst {
     public static final String JAVA_VM_SPECIFICATION_VERSION = "java.vm.specification.version";
 
     /**
-     * 虚拟机规范供应商
+     * Java 虚拟机规范供应商
      */
     public static final String JAVA_VM_SPECIFICATION_VENDOR = "java.vm.specification.vendor";
 
+    /**
+     * Java虚拟机压缩指针模式
+     */
     public static final String JAVA_VM_COMPRESSED_OOPS_MODE = "java.vm.compressedOopsMode";
 
     /**
@@ -209,26 +212,68 @@ public final class SystemPropertiesConst {
      */
     public static final String FILE_ENCODING = "file.encoding";
 
+    /**
+     * JDK调试模式的系统属性键
+     * 用于获取JDK调试模式的相关信息
+     */
     public static final String JDK_DEBUG = "jdk.debug";
 
+    /**
+     * CPU指令集列表的系统属性键
+     * 用于获取系统支持的CPU指令集列表
+     */
     public static final String SUN_CPU_ISALIST = "sun.cpu.isalist";
 
+    /**
+     * 文件系统编码的系统属性键
+     * 用于获取文件系统使用的编码方式
+     */
     public static final String SUN_JNU_ENCODING = "sun.jnu.encoding";
 
+    /**
+     * 系统架构数据模型的系统属性键
+     * 用于获取系统架构的数据模型，如32位或64位
+     */
     public static final String SUN_ARCH_DATA_MODEL = "sun.arch.data.model";
 
+    /**
+     * Java启动器的系统属性键
+     * 用于获取启动Java应用程序的启动器信息
+     */
     public static final String SUN_JAVA_LAUNCHER = "sun.java.launcher";
 
+    /**
+     * 根依赖路径，用于获取 Java 根引导类库的路径信息
+     */
     public static final String SUN_BOOT_LIBRARY_PATH = "sun.boot.library.path";
 
+    /**
+     * Java命令的系统属性键
+     * 用于获取启动Java应用程序的命令行指令
+     */
     public static final String SUN_JAVA_COMMAND = "sun.java.command";
 
+    /**
+     * CPU字节序的系统属性键
+     * 用于获取CPU使用的字节序，如小端字节序或大端字节序
+     */
     public static final String SUN_CPU_ENDIAN = "sun.cpu.endian";
 
+    /**
+     * Java管理编译器的系统属性键
+     * 用于获取Java管理编译器的相关信息
+     */
     public static final String SUN_MANAGEMENT_COMPILER = "sun.management.compiler";
 
+    /**
+     * 操作系统补丁级别的系统属性键
+     * 用于获取操作系统的补丁级别信息
+     */
     public static final String SUN_OS_PATCH_LEVEL = "sun.os.patch.level";
 
+    /**
+     * Unicode编码的系统属性键
+     * 用于获取系统使用的Unicode编码方式
+     */
     public static final String SUN_IO_UNICODE_ENCODING = "sun.io.unicode.encoding";
-
 }

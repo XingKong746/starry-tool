@@ -9,6 +9,7 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/starry-core" />
             <option value="$PROJECT_DIR$/starry-mail" />
             <option value="$PROJECT_DIR$/starry-mail-spring-boot-starter" />
           </set>

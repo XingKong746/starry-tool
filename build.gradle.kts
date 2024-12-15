@@ -14,7 +14,7 @@ allprojects {
     }
 
     group = "cn.starrys"
-    version = "0.0.1-SNAPSHOT"
+    version = "0.1.0-SNAPSHOT"
     description = "星空工具"
 
     repositories {
@@ -22,11 +22,12 @@ allprojects {
         maven { name = "tencentyun-maven"; url = uri("https://mirrors.tencent.com/maven") }
         maven { name = "aliyun-google-maven"; url = uri("https://maven.aliyun.com/repository/google") }
         maven { name = "aliyun-gradle-plugin"; url = uri("https://maven.aliyun.com/repository/gradle-plugin") }
-        gradlePluginPortal()
         mavenCentral()
+        gradlePluginPortal()
+        google()
     }
 
-    tasks.clean { delete("$projectDir/out") }
+    tasks.clean { delete("${projectDir}/out") }
 }
 
 subprojects {
@@ -73,8 +74,9 @@ subprojects {
                             url = "https://gitee.com/XingKong746/starry-tool/blob/main/LICENSE"
                         }
                     }
+                    // 开发者信息
                     developers {
-                        // 开发者信息
+                        // 开发者
                         developer {
                             // 开发者ID
                             id = "11520532" // Gitee
@@ -91,7 +93,7 @@ subprojects {
                             email = "q@xkhi.cn"
                         }
                     }
-                    // 版本控制仓库地址
+                    // 版本控制仓库
                     scm {
                         connection = "scm:git:git://gitee.com/XingKong746/starry-tool.git"
                         developerConnection = "scm:git:ssh://gitee.com/XingKong746/starry-tool.git"
@@ -113,20 +115,31 @@ subprojects {
                 }
             }
         }
-        // 使用signing插件对jar包签名
-        signing {
-            sign(publishing.publications["mavenJava"])
-        }
+    }
+    // 使用signing插件对jar包签名
+    signing {
+        sign(publishing.publications["mavenJava"])
     }
 }
 
+/**
+ * 检查字符串是否不以指定的任一后缀结尾
+ *
+ * @param mainString 待检查的主字符串
+ * @param endStrings 后缀数组，用于检查主字符串是否以这些后缀中的任一后缀结尾
+ * @return 如果主字符串不以任何指定的后缀结尾，则返回true；否则返回false
+ */
 fun notEndsWith(mainString: String, endStrings: Array<String>): Boolean {
-    var status: Boolean = true
+    // 初始化状态为true，表示主字符串不以后缀数组中的任一后缀结尾
+    var status = true
+    // 遍历后缀数组
     for (endStr in endStrings) {
+        // 如果主字符串以后缀数组中的某个后缀结尾，将状态设置为false，并终止遍历
         if (mainString.endsWith(endStr)) {
             status = false
             break
         }
     }
+    // 返回最终状态
     return status
 }
