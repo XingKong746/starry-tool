@@ -18,10 +18,7 @@
     <file type="web" url="file://$PROJECT_DIR$" />
   </component>
   <component name="GOROOT" url="" />
-  <component name="Kotlin2JsCompilerArguments">
-    <option name="moduleKind" value="plain" />
-  </component>
-  <component name="KubernetesApiProvider"><![CDATA[{}]]></component>
+  <component name="KubernetesApiProvider">{}</component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
